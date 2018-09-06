@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dpermi.mapper.MenuMapper">
+
+    <resultMap id="menuMap" type="com.dpermi.domain.Menu">
+        <id column="menu_id" property="menuId"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="menu_name" property="menuName"/>
+        <result column="menu_code" property="menuCode"/>
+        <result column="menu_url" property="menuUrl"/>
+        <result column="menu_order" property="menuOrder"/>
+    </resultMap>
+
+    <sql id="columns">
+        menu_id,parent_id,menu_name,menu_code,menu_url,menu_order
+    </sql>
+
+    <sql id="search">
+        <where>
+            1=1
+            <if test="menuName != null and menuName != ''">
+                and menu_name like concat('%',#{menuName},'%')
+            </if>
+
+        </where>
+    </sql>
+
+
+    <select id="getMenus" resultMap="menuMap">
+        select
+        <include refid="columns"/>
+        from menu order by menu_order
+    </select>
+
+    <select id="getMenusByName" resultMap="menuMap">
+        select
+        <include refid="columns"/>
+        from menu <include refid="search"/>
+        order by menu_order limit #{startIndex},#{pageSize}
+    </select>
+
+    <select id="getMenusByNameCount" resultType="Integer">
+        select  COUNT(*) from menu <include refid="search"/>
+    </select>
+
+    <select id="getMenu" resultMap="menuMap">
+        select
+        <include refid="columns"/>
+        from menu where menu_id=#{id}
+    </select>
+
+    <insert id="addMenu">
+        insert into menu(<include refid="columns"/>)
+        values (#{menuId},#{parentId},#{menuName},#{menuCode},#{menuUrl},#{menuOrder})
+    </insert>
+
+    <select id="checkCode" resultType="Integer">
+        select count(menu_id)
+        from menu where menu_code=#{menuCode}
+    </select>
+
+    <update id="updateMenu">
+        update menu set parent_id=#{parentId},menu_name=#{menuName},menu_url=#{menuUrl},menu_order=#{menuOrder}
+        where menu_id=#{menuId}
+    </update>
+
+</mapper>

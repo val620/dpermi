@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>数据权限管理系统Dpermi</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/pagination.css">
+    <link rel="stylesheet" href="css/ace.min.css"/>
+    <link rel="stylesheet" href="css/ace-rtl.min.css"/>
+    <link rel="stylesheet" href="css/ace-skins.min.css"/>
+    <link rel="stylesheet" href="css/font-awesome.min.css"/>
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="css/ace-ie.min.css"/>
+    <![endif]-->
+    <link rel="stylesheet" href="css/center.css"/>
+
+    <script src="js/jquery1.11.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/vue.min.js"></script>
+    <script src="js/vue-resource1.3.4.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/ace-extra.min.js"></script>
+    <script src="js/ace.min.js"></script>
+    <script src="js/tab.js"></script>
+
+    <!--<link rel="stylesheet" href="plugins/confirm/jquery-confirm.css">-->
+    <!--<script src="plugins/confirm/jquery-confirm.js"></script>-->
+
+</head>
+
+<body>
+<div id="index">
+    <div class="navbar navbar-default" id="navbar">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('navbar', 'fixed')
+        } catch (e) {
+        }
+    </script>
+
+    <div class="navbar-container" id="navbar-container">
+        <div class="navbar-header pull-left">
+            <a href="#" class="navbar-brand">
+                <small>
+                    <!--<i class="icon-leaf"></i>-->
+                    数据权限管理系统Dpermi
+                </small>
+            </a><!-- /.brand -->
+        </div><!-- /.navbar-header -->
+
+        <div class="navbar-header pull-right" role="navigation" id="userMsg">
+            <ul class="nav ace-nav">
+
+                <li class="light-blue">
+                    <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                        <img class="nav-user-photo"  v-bind:src="icon" alt="头像" id="userIcon" style="height: 32px"/>
+                        <span class="user-info">
+									<small id="userName">欢迎,</small>
+                                    {{userName}}
+								</span>
+
+                        <i class="icon-caret-down"></i>
+                    </a>
+
+                    <ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                        <li>
+                            <!--<a href="#" onclick="reset()">-->
+                                <!--<i class="icon-cog"></i>-->
+                                <!--修改密码-->
+                            <!--</a>-->
+                            <a href="#" onclick="openTab('reset','reset.html','修改密码');">
+                                <i class="icon-cog"></i> 修改密码
+                            </a>
+
+                        </li>
+
+                        <li>
+                            <a href="#" onclick="openTab('myinfo','myinfo.html','我的信息');">
+                                <i class="icon-user"></i>
+                                我的信息
+                            </a>
+                        </li>
+
+                        <li class="divider"></li>
+
+                        <li>
+                            <a href="#" onclick="logout()" id="logout">
+                                <i class="icon-off"></i>
+                                注销
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul><!-- /.ace-nav -->
+        </div><!-- /.navbar-header -->
+    </div><!-- /.container -->
+</div>
+
+    <div class="main-container" id="main-container">
+    <script type="text/javascript">
+        try {
+            ace.settings.check('main-container', 'fixed')
+        } catch (e) {
+        }
+    </script>
+
+    <div class="main-container-inner">
+        <a class="menu-toggler" id="menu-toggler" href="#">
+            <span class="menu-text"></span>
+        </a>
+
+        <div class="sidebar" id="sidebar">
+            <script type="text/javascript">
+                try {
+                    ace.settings.check('sidebar', 'fixed')
+                } catch (e) {
+                }
+            </script>
+
+            <div class="sidebar-shortcuts" id="sidebar-shortcuts">
+                <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+
+                </div>
+
+                <div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+                    <span class="btn btn-success"></span>
+
+                    <span class="btn btn-info"></span>
+
+                    <span class="btn btn-warning"></span>
+
+                    <span class="btn btn-danger"></span>
+                </div>
+            </div><!-- #sidebar-shortcuts -->
+
+            <div class="tree well" id="menuTree">
+
+            </div>
+
+            <div class="sidebar-collapse" id="sidebar-collapse">
+                <i class="icon-double-angle-left" data-icon1="icon-double-angle-left"
+                   data-icon2="icon-double-angle-right"></i>
+            </div>
+
+            <script type="text/javascript">
+                try {
+                    ace.settings.check('sidebar', 'collapsed')
+                } catch (e) {
+                }
+            </script>
+        </div>
+
+        <div class="main-content">
+            <div class="breadcrumbs" id="breadcrumbs">
+                <script type="text/javascript">
+                    try {
+                        ace.settings.check('breadcrumbs', 'fixed')
+                    } catch (e) {
+                    }
+                </script>
+
+                <!--<ul class="breadcrumb">-->
+                    <!--<li>-->
+                        <!--<a href="#" id="crumb"></a>-->
+                    <!--</li>-->
+                    <!--<li class="active"></li>-->
+                    <!--<li class="active"></li>-->
+                <!--</ul>-->
+                <!-- .breadcrumb -->
+
+            </div>
+
+            <div id="tabs">
+                <ul class="nav nav-tabs" role="tablist" style="height: 35px; border-bottom: 2px solid #ffffff;">　
+                    <li role="presentation" class="active" style="border-bottom: 2px solid #ffffff;"><a href="#profile" aria-controls="profile"
+                                                                                                        role="tab"
+                                                                                                        data-toggle="tab">
+                        首页</a></li>
+                </ul>
+                <div class="tab-content" style="margin-top:-1px;">
+                    <div role="tabpanel" class="tab-pane active" id="profile"><h1>欢迎进入Dpermi</h1></div>
+                </div>
+            </div>
+
+
+        </div><!-- /.main-content -->
+
+    </div><!-- /.main-container-inner -->
+
+</div>
+</div>
+</body>
+<script src="js/index.js"></script>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>编辑角色</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <script src="/js/jquery1.11.3.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/vue.min.js"></script>
+    <script src="/js/vue-resource1.3.4.js"></script>
+
+
+</head>
+<body>
+<div id="editRole">
+    <div class="modal-header">
+        <button type="button" class="close editClose" data-dismiss="modal" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">编辑角色</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">角色</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="txtRoleName" placeholder="角色" v-model="roleName">
+                </div>
+                <div class="col-sm-1">
+                    <h4 style="color: red">*</h4>&nbsp;
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">描述</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="txtDescription" placeholder="描述" v-model="description">
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">生效时间</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="txtBeginTime" placeholder="生效时间" v-model="beginTime">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">失效时间</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="txtEndTime" placeholder="失效时间" v-model="endTime">
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button id="btnClose" type="button" class="btn btn-default editClose" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" @click="editRole">保存</button>
+    </div>
+</div>
+
+<script src="/js/role/edit.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dpermi.mapper.ProductMapper">
+
+    <resultMap id="productMap" type="com.dpermi.domain.Product">
+        <id column="product_id" property="productId"/>
+        <result column="product_name" property="productName"/>
+        <result column="product_image" property="productImage"/>
+        <result column="brand_id" property="brandId"/>
+    </resultMap>
+
+    <sql id="columns">
+        product_id,product_name,product_image,brand_id
+    </sql>
+
+    <sql id="search">
+        where 1=1
+        <if test="productName != null and productName != ''">
+            and product_name like concat('%',#{productName},'%')
+        </if>
+        <if test="brandId != null and brandId != ''">
+            and brand_id = #{brandId}
+        </if>
+        <if test="permiBrands != null">
+            and brand_id in
+            <foreach collection="permiBrands" index="index" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+    </sql>
+
+    <select id="getProductsByName" resultMap="productMap">
+        select
+        <include refid="columns"/>
+        from product  <include refid="search"/>
+        order by brand_id asc, product_name asc limit #{startIndex},#{pageSize}
+    </select>
+
+    <select id="getProductsByNameCount" resultType="Integer">
+        select count(product_id)
+        from product  <include refid="search"/>
+    </select>
+
+    <select id="getProduct" resultMap="productMap">
+        select
+        <include refid="columns"/>
+        from product where product_id=#{id}
+    </select>
+
+    <insert id="addProduct">
+        insert into product(<include refid="columns"/>)
+        values (#{productId},#{productName},#{productImage},#{brandId})
+    </insert>
+
+    <update id="updateProduct">
+        update product set product_name=#{productName},product_image=#{productImage},brand_id=#{brandId}
+        where product_id=#{productId}
+    </update>
+
+</mapper>

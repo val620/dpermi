@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>产品列表</title>
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <script src="/js/jquery1.11.3.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/vue.min.js"></script>
+    <script src="/js/vue-resource1.3.4.js"></script>
+
+    <script src="/js/config.js"></script>
+
+</head>
+<body>
+<div id="productIndex">
+    <div class="form-inline">
+        <div class="form-group">
+            <label class="sr-only">品牌</label>
+            <select  v-model="search.brandId" class="form-control">
+                <option value="">请选择品牌</option>
+                <option v-for="brand in brands" v-bind:value="brand.brandId">
+                    {{ brand.brandName }}
+                </option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label class="sr-only">产品</label>
+            <input id="txtProductName" v-model="search.productName" style="width:135px" class="form-control" type="text"
+                   placeholder="请输入产品"/>
+        </div>
+
+        <button id="btnSearch" type="button" @click="getProducts" class="btn btn-primary">搜索</button>
+
+        <a class="btn btn-primary" href="edit.html" data-target="#dialog" data-toggle="modal" v-if="add">添加产品</a>
+
+        <input id="txtSearch" type="hidden" @click="getProducts()"/>
+        <input id="hidProductId" type="hidden"/>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped" id="main">
+            <thead>
+            <tr>
+                <th style="text-align:center;vertical-align:middle;">产品</th>
+                <th style="text-align:center;vertical-align:middle;">产品图片</th>
+                <th style="text-align:center;vertical-align:middle;">品牌</th>
+                <th style="text-align:center;vertical-align:middle;">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <template>
+                <tr v-for="product in products">
+                    <td style="text-align:center;vertical-align:middle;">{{product.productName}}</td>
+                    <td style="text-align:center;vertical-align:middle;">{{product.productImage}}</td>
+                    <td style="text-align:center;vertical-align:middle;">{{product.brand}}</td>
+                    <td style="text-align:center;vertical-align:middle;">
+                        <a class="btn btn-xs btn-info" href="edit.html" data-target="#dialog"
+                           data-toggle="modal" onclick="setProductId(this.id);" :id="product.productId" v-if="edit">编辑</a>
+
+                    </td>
+                </tr>
+            </template>
+            </tbody>
+        </table>
+    </div>
+    <div id="editDialog"><script>getPage('editDialog','/html/editDialog.html');</script></div>
+</div>
+
+
+<div id="page">
+    <script>getPaging();</script>
+</div>
+<script src="/js/product/index.js"></script>
+
+</body>
+</html>

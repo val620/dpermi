@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dpermi.mapper.MethodObjectMapper">
+    <resultMap id="methodObjectMap" type="com.dpermi.domain.MethodObject">
+        <id column="method_object_id"  property="methodObjectId" />
+        <result column="method_id"  property="methodId" />
+        <result column="method_name"  property="methodName" />
+        <result column="url"  property="url" />
+        <result column="parent_id" property="parentId" />
+        <result column="order_no" property="orderNo" />
+    </resultMap>
+
+    <select id="getMethodObjects" resultMap="methodObjectMap">
+        select * from method_object order by method_id
+    </select>
+
+    <insert id="insertMethodObject">
+        insert into method_object(method_object_id, method_id, method_name,url,parent_id,order_no)
+        values (#{methodObjectId}, #{methodId}, #{methodName}, #{url}, #{parentId}, #{orderNo})
+    </insert>
+
+    <update id="updateMethodObject">
+        update method_object
+        set method_name = #{methodName}, url = #{url},parent_id = #{parentId}
+        where method_object_id = #{methodObjectId}
+    </update>
+
+    <delete id="deleteMethodObject">
+        delete from method_object where method_object_id = #{id}
+    </delete>
+
+    <select id="getUserMethodObjects"  resultMap="methodObjectMap">
+        select mo.method_object_id, mo.method_id,mo.method_name,mo.url from user_permission up,method_object mo
+        where up.object_id=mo.method_object_id and up.data_type=0 and up.user_id = #{userId}
+    </select>
+
+    <resultMap id="permissionObjectMap" type="com.dpermi.domain.PermissionObject">
+        <result column="method_object_id"  property="objectId" />
+        <result column="url"  property="url" />
+        <result column="method_name"  property="objectName" />
+        <result column="data_type"  property="dataType" />
+        <result column="begin_time"  property="beginTime" />
+        <result column="end_time"  property="endTime" />
+        <result column="role_id"  property="roleId" />
+    </resultMap>
+
+    <select id="getUserRoleMethodObjects"  resultMap="permissionObjectMap">
+        select mo.method_object_id,mo.method_name,mo.url,rp.data_type,r.begin_time,r.end_time,ur.role_id
+        from role r, user_role ur,role_permission rp,method_object mo
+        where r.role_id=ur.role_id and ur.role_id=rp.role_id and rp.object_id=mo.method_object_id and rp.data_type=0
+        and ur.user_id = #{userId}
+    </select>
+
+</mapper>

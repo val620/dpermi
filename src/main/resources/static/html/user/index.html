@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>用户列表</title>
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <!--<link rel="stylesheet" href="/css/dialog.css">-->
+    <script src="/js/jquery1.11.3.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/vue.min.js"></script>
+    <script src="/js/vue-resource1.3.4.js"></script>
+    <!--<script src="../plugins/My97DatePicker/WdatePicker.js"></script>-->
+
+    <script src="/js/config.js"></script>
+
+    <!--<link rel="stylesheet" href="../plugins/confirm/jquery-confirm.css">-->
+    <!--<script src="../plugins/confirm/jquery-confirm.js"></script>-->
+
+</head>
+<body>
+<div id="userIndex">
+    <div class="form-inline">
+        <div class="form-group">
+            <label class="sr-only">姓名</label>
+            <input id="txtName" v-model="search.name" style="width:135px" class="form-control" type="text"
+                   placeholder="请输入姓名"/>
+        </div>
+        <div class="form-group">
+            <label class="sr-only">手机号</label>
+            <input id="txtCellphone" v-model="search.cellphone" class="form-control" type="text" placeholder="请输入手机号" style="width:135px"/>
+        </div>
+
+        <button id="btnSearch" type="button" @click="getUsers" class="btn btn-primary">搜索</button>
+
+        <a class="btn btn-primary" href="edit.html" data-target="#dialog" data-toggle="modal" v-if="add">添加用户</a>
+
+        <input id="txtSearch" type="hidden" @click="getUsers()"/>
+        <input id="hidUserId" type="hidden"/>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped" id="main">
+            <thead>
+            <tr>
+                <th style="text-align:center;vertical-align:middle;">姓名</th>
+                <th style="text-align:center;vertical-align:middle;">头像</th>
+                <th style="text-align:center;vertical-align:middle;">性别</th>
+                <th style="text-align:center;vertical-align:middle;">手机号</th>
+                <th style="text-align:center;vertical-align:middle;">生日</th>
+
+                <th style="text-align:center;vertical-align:middle;">QQ</th>
+                <th style="text-align:center;vertical-align:middle;">邮箱</th>
+                <th style="text-align:center;vertical-align:middle;">地址</th>
+                <th style="text-align:center;vertical-align:middle;">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <template>
+                <tr v-for="user in users">
+                    <td style="text-align:center;vertical-align:middle;">{{user.name}}</td>
+                    <td style="text-align:center;vertical-align:middle;"><img v-bind:src="user.icon"  class="img-circle" width="80px" height="80px"></td>
+                    <td style="text-align:center;vertical-align:middle;">{{user.genderDisplay}}</td>
+                    <td style="text-align:center;vertical-align:middle;">{{user.cellphone}}</td>
+                    <td style="text-align:center;vertical-align:middle;">{{user.birthdayDisplay}}</td>
+
+                    <td style="text-align:center;vertical-align:middle;">{{user.qq}}</td>
+                    <td style="text-align:center;vertical-align:middle;">{{user.email}}</td>
+                    <td style="text-align:center;vertical-align:middle;">{{user.address}}</td>
+
+                    <td style="text-align:center;vertical-align:middle;">
+                        <a class="btn btn-xs btn-info" href="edit.html" data-target="#dialog"
+                           data-toggle="modal" onclick="setUserId(this.id);" :id="user.userId" v-if="edit">编辑</a>
+                        <a class="btn btn-xs btn-info" href="role.html" data-target="#dialog"
+                           data-toggle="modal" onclick="setUserId(this.id);" :id="user.userId">角色</a>
+
+                    </td>
+                </tr>
+            </template>
+            </tbody>
+        </table>
+    </div>
+    <div id="editDialog"><script>getPage('editDialog','/html/editDialog.html');</script></div>
+</div>
+
+
+<div id="page">
+    <script>getPaging();</script>
+</div>
+<script src="/js/user/index.js"></script>
+
+</body>
+</html>

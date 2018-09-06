@@ -1,0 +1,21 @@
+<link rel="stylesheet" href="/css/pagination.css">
+<div id="paging">
+    <div class="page" v-show="show">
+        <div class="pagelist">
+            <span class="jump" :class="{disabled:pstart}" @click="jumpPage(--current_page)">上一页</span>
+            <span v-show="estart" class="jump" @click="jumpPage(1)">1</span>
+            <span class="ellipsis" v-show="efont">...</span>
+            <span class="jump" v-for="num in indexs" :class="{bgprimary:current_page==num}" @click="jumpPage(num)">{{num}}</span>
+            <span class="ellipsis" v-show="ebehind">...</span>
+
+            <span :class="{disabled:pend}" class="jump" @click="jumpPage(++current_page)">下一页</span>
+            <span v-show="eend" class="jump" @click="jumpPage(pages)">{{pages}}</span>
+
+            <span class="jumppoint">跳转到：</span>
+            <span class="jumpinp"><input type="text" v-model="changePage"></span>
+            <span class="jump gobtn" @click="jumpPage(changePage)">GO</span>
+        </div>
+    </div>
+</div>
+
+<script src="/js/pagination.js"></script>

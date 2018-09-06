@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>修改密码</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <script src="/js/jquery1.11.3.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/vue.min.js"></script>
+    <script src="/js/vue-resource1.3.4.js"></script>
+    <script src="/js/config.js"></script>
+
+</head>
+<body>
+<div id="myinfo">
+
+    <div class="modal-body">
+        <form class="form-horizontal">
+
+            <div class="form-group" >
+                <label class="col-sm-2 control-label">姓名：</label>
+                <div class="col-sm-7">
+                   {{name}}
+                </div>
+
+            </div>
+
+            <div class="form-group" >
+                <label class="col-sm-2 control-label">头像：</label>
+                <div class="col-sm-7">
+                    <img :src="icon"  class="img-circle" width="80px" height="80px">
+                </div>
+
+            </div>
+
+            <div class="form-group" >
+                <label class="col-sm-2 control-label">手机：</label>
+                <div class="col-sm-7">
+                    {{cellphone}}
+                </div>
+
+            </div>
+
+            <div class="form-group" >
+                <label class="col-sm-2 control-label">生日：</label>
+                <div class="col-sm-7">
+                    {{birthday}}
+                </div>
+
+            </div>
+            <div class="form-group" >
+                <label class="col-sm-2 control-label">状态：</label>
+                <div class="col-sm-7">
+                    {{state}}
+                </div>
+
+            </div>
+
+
+        </form>
+    </div>
+
+</div>
+
+<script src="/js/myinfo.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dpermi登录界面</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/login.css">
+    <script src="js/jquery1.11.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/vue.min.js"></script>
+    <script src="js/vue-resource1.3.4.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/cookieHelper.js"></script>
+</head>
+<body>
+
+<div id="login" class="container">
+
+    <form class="form-signin">
+        <h2 class="form-signin-heading" >请登录Dpermi</h2>
+        <input type="text" id="txtCellphone" class="form-control" placeholder="请输入手机号" required="" autofocus=""
+               v-model="cellphone">
+        <input type="password" id="txtPassword" class="form-control" placeholder="请输入密码" required=""
+               v-model="password">
+
+        <button class="btn btn-lg btn-primary btn-block" type="button" @click="login">登录</button>
+    </form>
+
+</div>
+<script src="js/login.js"></script>
+</body>
+</html>

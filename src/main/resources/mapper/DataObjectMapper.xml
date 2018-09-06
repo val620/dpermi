@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dpermi.mapper.DataObjectMapper">
+
+    <resultMap id="dataObjectMap" type="com.dpermi.domain.DataObject">
+        <id column="data_object_id"  property="dataObjectId" />
+        <result column="class_name"  property="className" />
+        <result column="field_name"  property="fieldName" />
+        <result column="data_type"  property="dataType" />
+
+    </resultMap>
+
+    <select id="getDataType" resultType="Integer">
+        select data_type from data_object where class_name=#{className} and field_name=#{fieldName}
+    </select>
+
+    <select id="getDataTypes" resultMap="dataObjectMap">
+        select class_name,field_name, data_type from data_object where class_name=#{className}
+    </select>
+
+</mapper>

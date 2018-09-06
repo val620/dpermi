@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>修改密码</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <script src="/js/jquery1.11.3.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/vue.min.js"></script>
+    <script src="/js/vue-resource1.3.4.js"></script>
+    <script src="/js/config.js"></script>
+
+</head>
+<body>
+<div id="reset">
+
+    <div class="modal-body">
+        <form class="form-horizontal">
+
+            <div class="form-group" >
+                <label class="col-sm-2 control-label">新密码</label>
+                <div class="col-sm-9">
+                    <input type="password" class="form-control" id="txtPassword" placeholder="新密码" v-model="password">
+                </div>
+                <div class="col-sm-1">
+                    <h4 style="color: red">*</h4>&nbsp;
+                </div>
+            </div>
+
+            <div class="form-group" >
+                <label class="col-sm-2 control-label">再次确认</label>
+                <div class="col-sm-9">
+                    <input type="password" class="form-control" id="txtConfirm" placeholder="再次确认" v-model="confirm">
+                </div>
+                <div class="col-sm-1">
+                    <h4 style="color: red">*</h4>&nbsp;
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" @click="reset">确定</button>
+    </div>
+</div>
+
+<script src="/js/reset.js"></script>
+
+</body>
+</html>

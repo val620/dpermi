@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>菜单权限</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/themes/default/style.min.css">
+    <script src="/js/jquery1.11.3.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/config.js"></script>
+    <script src="/js/jstree.min.js"></script>
+</head>
+<body>
+<div id="menuIndex">
+    <div class="modal-header">
+        <button type="button" class="close editClose" data-dismiss="modal" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">菜单权限</h4>
+    </div>
+
+    <div class="modal-body">
+       <div id="menuTree"></div>
+    </div>
+
+    <div class="modal-footer">
+        <button id="btnClose" type="button" class="btn btn-default editClose" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" onclick="save()">保存</button>
+    </div>
+</div>
+
+
+
+<script src="/js/role/menu.js"></script>
+</body>
+</html>

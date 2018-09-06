@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>角色</title>
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <script src="/js/jquery1.11.3.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/vue.min.js"></script>
+    <script src="/js/vue-resource1.3.4.js"></script>
+    <script src="/js/config.js"></script>
+
+</head>
+<body>
+<div id="roleIndex">
+    <div class="modal-header">
+        <button type="button" class="close editClose" data-dismiss="modal" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">角色</h4>
+    </div>
+
+    <div class="modal-body">
+        <div class="form-inline">
+
+            <div class="form-group">
+                <label class="sr-only">角色</label>
+                <input id="txtRoleName" v-model="search.roleName" style="width:135px" class="form-control" type="text"  placeholder="请输入角色"/>
+            </div>
+            <div class="form-group">
+                <label class="sr-only">描述</label>
+                <input id="txtDescription" v-model="search.description" style="width:135px" class="form-control" type="text" placeholder="请输入描述"/>
+                <input type="radio" name="role" value="new" checked="checked" />未添加
+                <input type="radio" name="role" value="added" />已添加
+            </div>
+
+            <button id="btnDialogSearch" type="button" @click="getRoles" class="btn btn-primary">搜索</button>
+
+            <button  type="button"  class="btn btn-primary" @click="save">保存</button>
+
+
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped" id="main">
+                <thead>
+                <tr>
+                    <th style="text-align:center;vertical-align:middle;"><input id="all" type="checkbox" @click="checkAll"/></th>
+                    <th style="text-align:center;vertical-align:middle;">角色</th>
+                    <th style="text-align:center;vertical-align:middle;">描述</th>
+                    <th style="text-align:center;vertical-align:middle;">生效时间</th>
+                    <th style="text-align:center;vertical-align:middle;">失效时间</th>
+                </tr>
+
+                </tr>
+                </thead>
+                <tbody>
+                <template>
+                    <tr v-for="role in roles">
+                        <td style="text-align:center;vertical-align:middle;"><input type="checkbox" :value="role.roleId"/></td>
+                        <td style="text-align:center;vertical-align:middle;">{{role.roleName}}</td>
+                        <td style="text-align:center;vertical-align:middle;">{{role.description}}</td>
+                        <td style="text-align:center;vertical-align:middle;">{{role.beginTimeStr}}</td>
+                        <td style="text-align:center;vertical-align:middle;">{{role.endTimeStr}}</td>
+
+                    </tr>
+                </template>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<script src="/js/user/role.js"></script>
+
+</body>
+</html>

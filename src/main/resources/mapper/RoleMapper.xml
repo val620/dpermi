@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dpermi.mapper.RoleMapper">
+
+    <resultMap id="roleMap" type="com.dpermi.domain.Role">
+        <id column="role_id" property="roleId"/>
+        <result column="role_name" property="roleName"/>
+        <result column="description" property="description"/>
+        <result column="begin_time" property="beginTime"/>
+        <result column="end_time" property="endTime"/>
+    </resultMap>
+
+    <sql id="columns">
+        role_id,role_name,description,begin_time,end_time
+    </sql>
+
+    <sql id="search">
+       <where>
+            1=1
+            <if test="roleName != null and roleName != ''">
+                and role_name like concat('%',#{roleName},'%')
+            </if>
+
+            <if test="description != null and description != ''">
+                and description like concat('%',#{description},'%')
+            </if>
+           <if test="roleIds != null and roleIds.length>0 and newObj!= null and newObj==true">
+               and role_id not in
+               <foreach collection="roleIds" index="index" item="item" open="(" close=")" separator=",">
+                   #{item}
+               </foreach>
+           </if>
+           <if test="roleIds != null and roleIds.length>0 and newObj!= null and newObj==false">
+               and role_id in
+               <foreach collection="roleIds" index="index" item="item" open="(" close=")" separator=",">
+                   #{item}
+               </foreach>
+           </if>
+
+        </where>
+    </sql>
+
+    <select id="getRoles" resultMap="roleMap">
+        select
+        <include refid="columns"/>
+        from role
+    </select>
+
+    <select id="getRolesByName" resultMap="roleMap">
+        select
+        <include refid="columns"/>
+        from role  <include refid="search"/>
+        order by role_name limit #{startIndex},#{pageSize}
+    </select>
+
+    <select id="getRolesByNameCount" resultType="Integer">
+        select count(role_id)
+        from role  <include refid="search"/>
+    </select>
+
+    <select id="getRole" resultMap="roleMap">
+        select
+        <include refid="columns"/>
+        from role where role_id=#{id}
+    </select>
+
+    <select id="getObjIds" resultType="String">
+        select object_id from role_permission
+        where role_id=#{roleId} and data_type=#{dataType}
+    </select>
+
+    <insert id="addRole">
+        insert into role(<include refid="columns"/>)
+        values (#{roleId},#{roleName},#{description},#{beginTime},#{endTime})
+    </insert>
+
+    <update id="updateRole">
+        update role set role_name=#{roleName},description=#{description},begin_time=#{beginTime},end_time=#{endTime}
+        where role_id=#{roleId}
+    </update>
+
+    <insert id="addRolePermission">
+        insert into role_permission(role_permission_id,role_id,object_id,data_type)
+        values (#{rolePermissionId},#{roleId},#{objectId},#{dataType})
+    </insert>
+
+    <sql id="deleteCond">
+        <where>
+            role_id=#{roleId} and data_type=#{dataType}
+            <if test="objIdArr != null and objIdArr.length>0">
+                and object_id in
+                <foreach collection="objIdArr" index="index" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+
+        </where>
+    </sql>
+
+    <delete id="deleteRolePermission">
+        delete from role_permission <include refid="deleteCond"/>
+    </delete>
+
+    <select id="getUserIds" resultType="String">
+        select user_id from user_role where role_id=#{roleId}
+    </select>
+
+    <select id="getRoleIds" resultType="String">
+        select role_id from user_role where user_id=#{userId}
+    </select>
+
+    <insert id="addUserRole">
+        insert into user_role(user_role_id,role_id,user_id)
+        values (#{userRoleId},#{roleId},#{userId})
+    </insert>
+
+    <sql id="deleteUserRoleCond">
+        <where>
+            role_id=#{roleId}
+            <if test="userIdArr != null and userIdArr.length>0">
+                and user_id in
+                <foreach collection="userIdArr" index="index" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+
+        </where>
+    </sql>
+
+    <delete id="deleteUserRole">
+        delete from user_role <include refid="deleteUserRoleCond"/>
+    </delete>
+
+</mapper>

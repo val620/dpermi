@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dpermi.mapper.BrandMapper">
+
+    <resultMap id="brandMap" type="com.dpermi.domain.Brand">
+        <id column="brand_id" property="brandId"/>
+        <result column="brand_name" property="brandName"/>
+        <result column="logo" property="logo"/>
+    </resultMap>
+
+    <resultMap id="permissionMap" type="com.dpermi.domain.PermissionObject">
+        <id column="brand_id" property="objectId"/>
+        <result column="brand_name" property="objectName"/>
+        <result column="dataType" property="dataType"/>
+    </resultMap>
+
+    <sql id="columns">
+        brand_id,brand_name,logo
+    </sql>
+
+    <sql id="search">
+        <where>
+            1=1
+            <if test="objectName != null and objectName != ''">
+                and brand_name like concat('%',#{objectName},'%')
+            </if>
+            <if test="objIds != null and objIds.length>0 and newObj==true">
+                and brand_id not in
+                <foreach collection="objIds" index="index" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="objIds != null and objIds.length>0 and newObj==false">
+                and brand_id in
+                <foreach collection="objIds" index="index" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+
+        </where>
+    </sql>
+
+    <select id="getBrands" resultMap="permissionMap">
+        select
+        brand_id,brand_name,1 dataType
+        from brand <include refid="search"/>
+        order by brand_name limit #{startIndex},#{pageSize}
+    </select>
+
+    <select id="getBrandsCount" resultType="Integer">
+        select count(brand_id)
+        from brand <include refid="search"/>
+    </select>
+
+    <select id="getAll" resultMap="brandMap">
+        select  <include refid="columns"/> from brand
+    </select>
+
+    <select id="getBrand" resultMap="brandMap">
+        select
+        <include refid="columns"/>
+        from brand where brand_id=#{id}
+    </select>
+
+    <insert id="addBrand">
+        insert into brand(<include refid="columns"/>)
+        values (#{brandId},#{brandName},#{logo})
+    </insert>
+
+    <update id="updateBrand">
+        update brand set brand_name=#{brandName},logo=#{logo}
+        where brand_id=#{brandId}
+    </update>
+
+</mapper>

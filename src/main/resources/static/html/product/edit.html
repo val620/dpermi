@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>编辑产品</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <script src="/js/jquery1.11.3.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/vue.min.js"></script>
+    <script src="/js/vue-resource1.3.4.js"></script>
+
+
+</head>
+<body>
+<div id="editProduct">
+    <div class="modal-header">
+        <button type="button" class="close editClose" data-dismiss="modal" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">编辑产品</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">产品</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="txtProductName" placeholder="产品" v-model="productName">
+                </div>
+                <div class="col-sm-1">
+                    <h4 style="color: red">*</h4>&nbsp;
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">品牌</label>
+                <div class="col-sm-9">
+                    <select  v-model="brandId" class="form-control">
+                        <option v-for="brand in brands" v-bind:value="brand.brandId">
+                            {{ brand.brandName }}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-sm-1">
+                    <h4 style="color: red">*</h4>&nbsp;
+                </div>
+            </div>
+
+            <div class="form-group" >
+                <label class="col-sm-2 control-label">产品图片</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="txtProductImage" placeholder="产品图片"
+                           v-model="productImage">
+                </div>
+
+            </div>
+
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button id="btnClose" type="button" class="btn btn-default editClose" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" @click="editProduct">保存</button>
+    </div>
+</div>
+
+<script src="/js/product/edit.js"></script>
+
+</body>
+</html>

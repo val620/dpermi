@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dpermi.mapper.UserMapper">
+
+    <resultMap id="userMap" type="com.dpermi.domain.User">
+        <id property="userId" column="user_id"/>
+        <result property="name" column="name"/>
+        <result property="email" column="email"/>
+        <result property="cellphone" column="cellphone"/>
+        <result property="gender" column="gender"/>
+        <result property="birthday" column="birthday"/>
+        <result property="userState" column="user_state"/>
+        <result property="idCard" column="id_card"/>
+        <result property="qq" column="qq"/>
+        <result property="icon" column="icon"/>
+        <result property="introduction" column="introduction"/>
+        <result property="address" column="address"/>
+        <result property="admin" column="is_admin"/>
+        <result property="delete" column="is_delete"/>
+    </resultMap>
+
+    <sql id="columns">
+        user_id,password,name,
+        email,cellphone,gender,birthday,user_state,id_card,icon,qq,introduction,address,is_admin
+    </sql>
+
+
+    <insert id="addUser">
+        insert into
+        user(user_id,name,password,cellphone)
+        VALUES (#{userId},#{name},#{password},#{cellphone})
+    </insert>
+
+    <update id="updateUser" parameterType="com.dpermi.domain.ModifyUser">
+        UPDATE user  SET
+        name = #{name},gender = #{gender},birthday=#{newBirthday},id_card= #{idCard},icon= #{icon},qq= #{qq}
+        ,email=#{email},address=#{address},user_state = #{userState},introduction=#{introduction}
+        WHERE user_id = #{userId}
+    </update>
+
+    <update id="deleteUser">
+     UPDATE user SET is_delete=1 WHERE  user_id = #{id}
+    </update>
+
+    <sql id="base_conditions">
+        <where>
+            is_delete=0
+            <if test="name != null and name != ''">
+                and name LIKE concat('%',#{name},'%')
+            </if>
+
+            <if test="cellphone != null and cellphone != ''">
+                and cellphone LIKE concat('%',#{cellphone},'%')
+            </if>
+
+            <if test="userIds != null and userIds.length>0 and newObj!= null and newObj==true">
+                and user_id not in
+                <foreach collection="userIds" index="index" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="userIds != null and userIds.length>0 and newObj!= null and newObj==false">
+                and user_id in
+                <foreach collection="userIds" index="index" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+
+        </where>
+    </sql>
+
+    <select id="getUsers" resultMap="userMap">
+        SELECT
+        <include refid="columns"/>
+        FROM user
+        <include refid="base_conditions"/>
+        order by name ASC LIMIT #{startIndex},#{pageSize}
+    </select>
+
+    <select id="getUsersCount" resultType="Integer">
+        SELECT COUNT(user_id) FROM user <include refid="base_conditions"/>
+    </select>
+
+
+    <select id="findUser" resultMap="userMap">
+        select
+        <include refid="columns"/>
+        FROM user
+        where user_id = #{userId} AND is_delete=0
+    </select>
+
+
+    <select id="login" resultMap="userMap">
+        SELECT
+        <include refid="columns"/>
+        FROM user u
+        WHERE u.cellphone = #{cellphone} AND u.password = #{password} AND is_delete = 0
+    </select>
+
+    <select id="checkCellphone" parameterType="String" resultType="String">
+        SELECT  user_id  FROM  user
+        WHERE cellphone = #{cellphone} AND is_delete = 0
+    </select>
+
+    <update id="resetPassword">
+        update user set password = #{password}
+        where user_id = #{userId} AND is_delete = 0
+    </update>
+
+
+    <resultMap id="permissionObjectMap" type="com.dpermi.domain.PermissionObject">
+        <result column="object_id" property="objectId"/>
+        <result column="data_type" property="dataType"/>
+        <result column="begin_time" property="beginTime"/>
+        <result column="end_time" property="endTime"/>
+        <result column="role_id" property="roleId"/>
+    </resultMap>
+
+    <select id="getUserPermissionObjects" resultMap="permissionObjectMap">
+        select rp.object_id,rp.data_type,ur.role_id from role r, user_role ur,role_permission rp
+        where r.role_id=ur.role_id and ur.role_id=rp.role_id and ur.user_id = #{userId}
+    </select>
+
+    <sql id="deleteUserRoleCond">
+        <where>
+            user_id=#{userId}
+            <if test="roleIds != null and roleIds.length>0">
+                and role_id in
+                <foreach collection="roleIds" index="index" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+
+        </where>
+    </sql>
+
+    <delete id="deleteUserRole">
+        delete from user_role <include refid="deleteUserRoleCond"/>
+    </delete>
+
+</mapper>

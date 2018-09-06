@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>菜单列表</title>
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <script src="/js/jquery1.11.3.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/vue.min.js"></script>
+    <script src="/js/vue-resource1.3.4.js"></script>
+    <script src="/js/config.js"></script>
+
+
+</head>
+<body>
+<div id="menuIndex">
+    <div class="form-inline">
+        <div class="form-group">
+            <label class="sr-only">菜单</label>
+            <input id="txtMenuName" v-model="search.menuName" style="width:135px" class="form-control" type="text"
+                   placeholder="请输入菜单"/>
+        </div>
+
+        <button id="btnSearch" type="button" @click="getMenus" class="btn btn-primary">搜索</button>
+
+        <a class="btn btn-primary" href="edit.html" data-target="#dialog" data-toggle="modal">添加菜单</a>
+
+        <input id="txtSearch" type="hidden" @click="getMenus()"/>
+        <input id="hidMenuId" type="hidden"/>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped" id="main">
+            <thead>
+            <tr>
+                <th style="text-align:center;vertical-align:middle;">菜单</th>
+                <th style="text-align:center;vertical-align:middle;">父菜单</th>
+                <th style="text-align:center;vertical-align:middle;">菜单代码</th>
+                <th style="text-align:center;vertical-align:middle;">菜单链接</th>
+                <th style="text-align:center;vertical-align:middle;">排序</th>
+                <th style="text-align:center;vertical-align:middle;">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <template>
+                <tr v-for="menu in menus">
+                    <td style="text-align:center;vertical-align:middle;">{{menu.menuName}}</td>
+                    <td style="text-align:center;vertical-align:middle;">{{menu.parent}}</td>
+                    <td style="text-align:center;vertical-align:middle;">{{menu.menuCode}}</td>
+                    <td style="text-align:center;vertical-align:middle;">{{menu.menuUrl}}</td>
+                    <td style="text-align:center;vertical-align:middle;">{{menu.menuOrder}}</td>
+                    <td style="text-align:center;vertical-align:middle;">
+                        <a class="btn btn-xs btn-info" href="edit.html" data-target="#dialog"
+                           data-toggle="modal" onclick="setMenuId(this.id);" :id="menu.menuId">编辑</a>
+
+                    </td>
+                </tr>
+            </template>
+            </tbody>
+        </table>
+    </div>
+    <div id="editDialog"><script>getPage('editDialog','/html/editDialog.html');</script></div>
+</div>
+
+
+<div id="page">
+    <script>getPaging();</script>
+</div>
+<script src="/js/menu/index.js"></script>
+
+</body>
+</html>
